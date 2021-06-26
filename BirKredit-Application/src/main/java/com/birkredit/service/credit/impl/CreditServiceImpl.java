@@ -11,7 +11,6 @@ import com.birkredit.mapper.CustomerMapper;
 import com.birkredit.repository.customer.CustomerJpaRepository;
 import com.birkredit.repository.credit.CreditRepository;
 import com.birkredit.service.credit.CreditService;
-import com.birkredit.service.customer.CustomerService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,12 +22,14 @@ import java.util.Optional;
 @Service
 public class CreditServiceImpl implements CreditService {
 
-    @Autowired
-    private CustomerService customerService;
-    @Autowired
     private CustomerJpaRepository customerJpaRepository;
-    @Autowired
     private CreditRepository creditRepository;
+
+    @Autowired
+    public CreditServiceImpl(CustomerJpaRepository customerJpaRepository, CreditRepository creditRepository) {
+        this.customerJpaRepository = customerJpaRepository;
+        this.creditRepository = creditRepository;
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -36,8 +37,6 @@ public class CreditServiceImpl implements CreditService {
         Optional<Customer> optionalCustomer = customerJpaRepository.findByCustomerNumber(customerNumber);
         optionalCustomer.orElseThrow(() -> new DataNotFoundException(ResponseMessage.ERROR_CUSTOMER_NOT_FOUND_BY_CUSTOMER_NUMBER));
         Customer customer = optionalCustomer.get();
-
-        //TODO: check whether the customer is eligible to get a new credit
 
         Credit credit = calculateAndSaveCredit(customer, request);
         Credit updatedCredit = creditRepository.save(credit);
@@ -50,14 +49,11 @@ public class CreditServiceImpl implements CreditService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Credit calculateAndSaveCredit(Customer customer, CreditRequest request) {
-        Credit credit = new Credit();
+        Credit credit = CreditMapper.INSTANCE.creditRequestToCredit(request);
         credit.setCreditNumber(RandomStringUtils.random(20, false, true));
-        credit.setStartDate(request.getStartDate());
-        credit.setEndDate(request.getEndDate());
-        credit.setAmount(request.getAmount());
         credit.setDebt(request.getAmount());
-        credit.setPercentage(request.getPercentage());
 
         credit.setMonths((double) Period.between(credit.getStartDate(), credit.getEndDate()).toTotalMonths());
         credit.setPercentagePerMonth(credit.getPercentage() / (credit.getMonths() * 100D));

@@ -15,7 +15,6 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-
     @Override
     public Optional<Customer> findByCustomerNumberAndCreditNumber(String customerNumber, String creditNumber) {
         TypedQuery<Customer> typedQuery = entityManager

@@ -1,8 +1,6 @@
 package com.birkredit.service.payment.impl;
 
 import com.birkredit.controller.dto.CustomerCreditResponse;
-import com.birkredit.controller.dto.CustomerResponse;
-import com.birkredit.controller.dto.PaymentResponse;
 import com.birkredit.entity.Credit;
 import com.birkredit.entity.Customer;
 import com.birkredit.entity.Payment;
@@ -10,7 +8,6 @@ import com.birkredit.exception.DataNotFoundException;
 import com.birkredit.exception.response.ResponseMessage;
 import com.birkredit.mapper.CustomerMapper;
 import com.birkredit.repository.customer.CustomerJpaRepository;
-import com.birkredit.repository.customer.CustomerRepository;
 import com.birkredit.service.payment.PaymentService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +21,12 @@ import java.util.Optional;
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
-    @Autowired
     private CustomerJpaRepository customerJpaRepository;
+
     @Autowired
-    private CustomerRepository customerRepository;
+    public PaymentServiceImpl(CustomerJpaRepository customerJpaRepository) {
+        this.customerJpaRepository = customerJpaRepository;
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
