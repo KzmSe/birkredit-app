@@ -1,6 +1,8 @@
 package com.birkredit.service.credit.impl;
 
-import com.birkredit.controller.dto.*;
+import com.birkredit.controller.credit.dto.CreditRequest;
+import com.birkredit.controller.credit.dto.CreditResponse;
+import com.birkredit.controller.customer.dto.CustomerLiteResponse;
 import com.birkredit.entity.Credit;
 import com.birkredit.entity.Customer;
 import com.birkredit.entity.Payment;

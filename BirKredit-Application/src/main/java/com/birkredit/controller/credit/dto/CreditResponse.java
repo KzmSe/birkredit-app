@@ -1,5 +1,7 @@
-package com.birkredit.controller.dto;
+package com.birkredit.controller.credit.dto;
 
+import com.birkredit.controller.customer.dto.CustomerLiteResponse;
+import com.birkredit.controller.payment.dto.PaymentResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 

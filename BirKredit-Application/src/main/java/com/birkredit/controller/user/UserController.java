@@ -1,7 +1,7 @@
 package com.birkredit.controller.user;
 
-import com.birkredit.controller.dto.UserCreationRequest;
-import com.birkredit.controller.dto.UserResponse;
+import com.birkredit.controller.user.dto.UserCreationRequest;
+import com.birkredit.controller.user.dto.UserResponse;
 import com.birkredit.entity.User;
 import com.birkredit.mapper.UserMapper;
 import com.birkredit.service.user.UserService;

@@ -1,7 +1,7 @@
 package com.birkredit.service.customer.impl;
 
-import com.birkredit.controller.dto.CustomerCreditResponse;
-import com.birkredit.controller.dto.CustomerResponse;
+import com.birkredit.controller.customer.dto.CustomerCreditResponse;
+import com.birkredit.controller.customer.dto.CustomerResponse;
 import com.birkredit.entity.Customer;
 import com.birkredit.exception.DataNotFoundException;
 import com.birkredit.exception.response.ResponseMessage;

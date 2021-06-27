@@ -1,4 +1,4 @@
-package com.birkredit.controller.dto;
+package com.birkredit.controller.credit.dto;
 
 import lombok.*;
 

@@ -1,6 +1,11 @@
 package com.birkredit.mapper;
 
-import com.birkredit.controller.dto.*;
+import com.birkredit.controller.credit.dto.CreditResponse;
+import com.birkredit.controller.customer.dto.CustomerCreationRequest;
+import com.birkredit.controller.customer.dto.CustomerCreditResponse;
+import com.birkredit.controller.customer.dto.CustomerLiteResponse;
+import com.birkredit.controller.customer.dto.CustomerResponse;
+import com.birkredit.controller.payment.dto.PaymentResponse;
 import com.birkredit.entity.Credit;
 import com.birkredit.entity.Customer;
 import com.birkredit.entity.Payment;

@@ -1,12 +1,10 @@
 package com.birkredit.controller.credit;
 
-import com.birkredit.controller.dto.CreditRequest;
-import com.birkredit.controller.dto.CreditResponse;
-import com.birkredit.controller.dto.CustomerCreditResponse;
+import com.birkredit.controller.credit.dto.CreditRequest;
+import com.birkredit.controller.credit.dto.CreditResponse;
 import com.birkredit.service.credit.CreditService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

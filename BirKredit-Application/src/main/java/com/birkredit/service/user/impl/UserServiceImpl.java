@@ -1,6 +1,6 @@
 package com.birkredit.service.user.impl;
 
-import com.birkredit.controller.dto.UserResponse;
+import com.birkredit.controller.user.dto.UserResponse;
 import com.birkredit.entity.User;
 import com.birkredit.entity.UserRole;
 import com.birkredit.mapper.UserMapper;

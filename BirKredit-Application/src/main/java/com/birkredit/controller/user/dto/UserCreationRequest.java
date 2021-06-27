@@ -1,19 +1,20 @@
-package com.birkredit.controller.dto;
+package com.birkredit.controller.user.dto;
 
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class CustomerCreationRequest {
+public class UserCreationRequest {
 
+    @NotNull
+    @NotEmpty
+    private String username;
     @NotNull
     @NotEmpty
     private String name;
@@ -23,10 +24,4 @@ public class CustomerCreationRequest {
     @NotNull
     @NotEmpty
     private String phoneNumber;
-    @NotNull
-    @NotEmpty
-    private String address;
-    @NotNull
-    @Past
-    private LocalDate dateOfBirth;
 }

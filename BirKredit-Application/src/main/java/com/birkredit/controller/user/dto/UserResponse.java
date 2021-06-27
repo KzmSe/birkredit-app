@@ -1,4 +1,4 @@
-package com.birkredit.controller.dto;
+package com.birkredit.controller.user.dto;
 
 import com.birkredit.entity.UserRole;
 import com.fasterxml.jackson.annotation.JsonInclude;

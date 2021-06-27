@@ -1,6 +1,6 @@
 package com.birkredit.service.payment;
 
-import com.birkredit.controller.dto.CustomerCreditResponse;
+import com.birkredit.controller.customer.dto.CustomerCreditResponse;
 
 public interface PaymentService {
 
