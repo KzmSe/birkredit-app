@@ -21,7 +21,7 @@ public class CreditController {
         this.creditService = creditService;
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR', 'USER')")
     @PostMapping("/customers/{customer-number}")
     @ApiOperation(value = "Issue a credit by customer number", response = CreditResponse.class)
     public CreditResponse issueCredit(@PathVariable(name = "customer-number") String customerNumber,

@@ -62,8 +62,6 @@ public class CreditServiceImpl implements CreditService {
         credit.setPaymentPerMonth((credit.getAmount() * credit.getPercentagePerMonth()) / (1D - (1D / (Math.pow(1D + credit.getPercentagePerMonth(), credit.getMonths())))));
         credit.setCustomer(customer);
 
-        Credit savedCredit = creditRepository.save(credit);
-
         for (int i = 1; i <= credit.getMonths(); i++) {
             Payment payment = new Payment();
             payment.setIsPayed(false);
@@ -74,8 +72,6 @@ public class CreditServiceImpl implements CreditService {
             credit.addPayment(payment);
         }
 
-        credit.setDebt(credit.getAmount());
-
-        return savedCredit;
+        return creditRepository.save(credit);
     }
 }

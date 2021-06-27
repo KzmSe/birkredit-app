@@ -29,7 +29,7 @@ public class UserController {
     @PostMapping
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @ApiOperation(value = "Create a new user", response = UserResponse.class)
-    public UserResponse register(@RequestBody UserCreationRequest request) {
+    public UserResponse insertUser(@RequestBody UserCreationRequest request) {
         User user = UserMapper.INSTANCE.userCreationRequestToUser(request);
         return userService.insertUser(user);
     }
