@@ -10,7 +10,7 @@ import com.birkredit.exception.DataNotFoundException;
 import com.birkredit.exception.response.ResponseMessage;
 import com.birkredit.mapper.CreditMapper;
 import com.birkredit.mapper.CustomerMapper;
-import com.birkredit.repository.customer.CustomerJpaRepository;
+import com.birkredit.repository.customer.CustomerRepository;
 import com.birkredit.repository.credit.CreditRepository;
 import com.birkredit.service.credit.CreditService;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -24,19 +24,19 @@ import java.util.Optional;
 @Service
 public class CreditServiceImpl implements CreditService {
 
-    private CustomerJpaRepository customerJpaRepository;
+    private CustomerRepository customerRepository;
     private CreditRepository creditRepository;
 
     @Autowired
-    public CreditServiceImpl(CustomerJpaRepository customerJpaRepository, CreditRepository creditRepository) {
-        this.customerJpaRepository = customerJpaRepository;
+    public CreditServiceImpl(CustomerRepository customerRepository, CreditRepository creditRepository) {
+        this.customerRepository = customerRepository;
         this.creditRepository = creditRepository;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public CreditResponse issueCredit(String customerNumber, CreditRequest request) {
-        Optional<Customer> optionalCustomer = customerJpaRepository.findByCustomerNumber(customerNumber);
+        Optional<Customer> optionalCustomer = customerRepository.findByCustomerNumber(customerNumber);
         optionalCustomer.orElseThrow(() -> new DataNotFoundException(ResponseMessage.ERROR_CUSTOMER_NOT_FOUND_BY_CUSTOMER_NUMBER));
         Customer customer = optionalCustomer.get();
 
@@ -64,13 +64,17 @@ public class CreditServiceImpl implements CreditService {
 
         for (int i = 1; i <= credit.getMonths(); i++) {
             Payment payment = new Payment();
-            payment.setIsPayed(false);
+            payment.setPaymentNumber(RandomStringUtils.random(20, false, true));
+            payment.setPaymentDate(credit.getStartDate().plusMonths(i));
             payment.setInterestAmountOfMonth(credit.getDebt() * credit.getPercentagePerMonth());
             payment.setMainAmountOfMonth((credit.getPaymentPerMonth() - payment.getInterestAmountOfMonth()));
             credit.setDebt(credit.getDebt() - payment.getMainAmountOfMonth());
+            payment.setIsPayed(false);
 
             credit.addPayment(payment);
         }
+
+        credit.setDebt(request.getAmount());
 
         return creditRepository.save(credit);
     }

@@ -1,20 +1,18 @@
 package com.birkredit.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "payment")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Payment {
+public class Payment implements Comparable<Payment>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +23,7 @@ public class Payment {
     private String paymentNumber;
 
     @Column(name = "payment_date")
-    private LocalDateTime paymentDate;
+    private LocalDate paymentDate;
 
     @Column(name = "amount_of_payment")
     private Double amountOfPayment;
@@ -45,4 +43,15 @@ public class Payment {
     @ManyToOne
     @JoinColumn(name = "fk_credit_id")
     private Credit credit;
+
+    @Override
+    public int compareTo(Payment payment) {
+        if (paymentDate.isEqual(payment.getPaymentDate())) {
+            return 0;
+        } else if (paymentDate.isBefore(payment.getPaymentDate())) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
 }

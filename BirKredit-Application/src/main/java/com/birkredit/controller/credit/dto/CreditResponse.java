@@ -17,7 +17,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CreditResponse {
 
-    private CustomerLiteResponse customerLiteResponse;
     private Long id;
     private String creditNumber;
     private LocalDate startDate;
@@ -28,6 +27,7 @@ public class CreditResponse {
     private Double months;
     private Double percentagePerMonth;
     private Double paymentPerMonth;
+    private CustomerLiteResponse customerLiteResponse;
     private List<PaymentResponse> payments = new ArrayList<>();
 
     public void addPaymentResponse(PaymentResponse paymentResponse) {

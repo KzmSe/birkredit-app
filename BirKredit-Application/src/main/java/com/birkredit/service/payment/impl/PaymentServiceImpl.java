@@ -7,31 +7,29 @@ import com.birkredit.entity.Payment;
 import com.birkredit.exception.DataNotFoundException;
 import com.birkredit.exception.response.ResponseMessage;
 import com.birkredit.mapper.CustomerMapper;
-import com.birkredit.repository.customer.CustomerJpaRepository;
+import com.birkredit.repository.customer.CustomerRepository;
 import com.birkredit.service.payment.PaymentService;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
-    private CustomerJpaRepository customerJpaRepository;
+    private CustomerRepository customerRepository;
 
     @Autowired
-    public PaymentServiceImpl(CustomerJpaRepository customerJpaRepository) {
-        this.customerJpaRepository = customerJpaRepository;
+    public PaymentServiceImpl(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public CustomerCreditResponse payByCustomerNumberAndCreditNumber(String customerNumber, String creditNumber, Double amount) {
-        Optional<Customer> optionalCustomer = customerJpaRepository.findByCustomerNumberAndCredits_CreditNumber(customerNumber, creditNumber);
+        Optional<Customer> optionalCustomer = customerRepository.findByCustomerNumberAndCredits_CreditNumber(customerNumber, creditNumber);
         optionalCustomer.orElseThrow(() -> new DataNotFoundException(ResponseMessage.ERROR_CREDIT_NOT_FOUND_BY_CUSTOMER_NUMBER_OR_CREDIT_NUMBER));
 
         Customer customer = optionalCustomer.get();
@@ -43,14 +41,8 @@ public class PaymentServiceImpl implements PaymentService {
 
         credit.setDebt(credit.getDebt() - amount);
 
-        //update credit
-        for (int i = 0; i < credit.getPayments().size(); i++) {
-            Payment payment = credit.getPayments().get(i);
-
+        for (Payment payment : credit.getPayments()) {
             if (!payment.getIsPayed() && amount > 0) {
-                payment.setPaymentNumber(RandomStringUtils.random(20, false, true));
-                payment.setPaymentDate(LocalDateTime.now());
-
                 if (amount > payment.getInterestAmountOfMonth()) {
                     amount = amount - payment.getInterestAmountOfMonth();
                     payment.setInterestAmountOfMonth(0D);
@@ -73,7 +65,7 @@ public class PaymentServiceImpl implements PaymentService {
             }
         }
 
-        Customer updatedCustomer = customerJpaRepository.save(customer);
+        Customer updatedCustomer = customerRepository.save(customer);
 
         return CustomerMapper.INSTANCE.customerToCustomerCreditResponse(updatedCustomer);
     }

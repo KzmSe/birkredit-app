@@ -1,17 +1,16 @@
 package com.birkredit.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 @Entity
 @Table(name = "credit")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Credit {
@@ -49,7 +48,8 @@ public class Credit {
     private Double paymentPerMonth;
 
     @OneToMany(mappedBy = "credit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Payment> payments = new ArrayList<>();
+    @OrderBy("paymentDate asc")
+    private SortedSet<Payment> payments = new TreeSet<>();
 
     @ManyToOne
     @JoinColumn(name = "fk_customer_id")

@@ -13,4 +13,6 @@ public class CustomerLiteResponse {
 
     private Long id;
     private String customerNumber;
+    private String name;
+    private String surname;
 }

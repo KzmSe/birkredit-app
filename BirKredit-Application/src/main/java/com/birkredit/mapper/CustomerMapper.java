@@ -50,8 +50,7 @@ public interface CustomerMapper {
             creditResponse.setPercentagePerMonth(credit.getPercentagePerMonth());
             creditResponse.setPaymentPerMonth(credit.getPaymentPerMonth());
 
-            for (int j = 0; j < credits.get(i).getPayments().size(); j++) {
-                Payment payment = credits.get(i).getPayments().get(j);
+            for (Payment payment : credits.get(i).getPayments()) {
                 PaymentResponse paymentResponse = new PaymentResponse();
 
                 paymentResponse.setId(payment.getId());

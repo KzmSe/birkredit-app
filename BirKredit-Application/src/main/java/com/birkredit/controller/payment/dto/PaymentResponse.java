@@ -3,7 +3,7 @@ package com.birkredit.controller.payment.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -15,7 +15,7 @@ public class PaymentResponse {
 
     private Long id;
     private String paymentNumber;
-    private LocalDateTime paymentDate;
+    private LocalDate paymentDate;
     private Double amountOfPayment;
     private Double durationPerMonth;
     private Double mainAmountOfMonth;

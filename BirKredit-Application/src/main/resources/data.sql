@@ -79,8 +79,8 @@ VALUES ('sanank',
         'ROLE_ADMINISTRATOR');
 
 INSERT INTO customer(name, surname, customer_number, address, date_of_birth)
-VALUES ('sanan',
-        'kazimov',
+VALUES ('Sanan',
+        'Kazimov',
         '1q2w3e4r5t6y',
-        'baku azerbaijan',
+        'Baku Azerbaijan',
         '1996-02-26');
