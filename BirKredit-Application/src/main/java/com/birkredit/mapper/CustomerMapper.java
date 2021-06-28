@@ -14,6 +14,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,7 @@ public interface CustomerMapper {
     @Named("creditsToCreditsResponse")
     static List<CreditResponse> customerToCustomerCreditResponse(List<Credit> credits) {
         List<CreditResponse> response = new ArrayList<>();
+        DecimalFormat formatter = new DecimalFormat("#.##");
 
         for (int i = 0; i < credits.size(); i++) {
             Credit credit = credits.get(i);
@@ -58,8 +60,8 @@ public interface CustomerMapper {
                 paymentResponse.setPaymentDate(payment.getPaymentDate());
                 paymentResponse.setAmountOfPayment(payment.getAmountOfPayment());
                 paymentResponse.setDurationPerMonth(payment.getDurationPerMonth());
-                paymentResponse.setMainAmountOfMonth(payment.getMainAmountOfMonth());
-                paymentResponse.setInterestAmountOfMonth(payment.getInterestAmountOfMonth());
+                paymentResponse.setMainAmountOfMonth(Double.valueOf(formatter.format(payment.getMainAmountOfMonth())));
+                paymentResponse.setInterestAmountOfMonth(Double.valueOf(formatter.format(payment.getInterestAmountOfMonth())));
                 paymentResponse.setIsPayed(payment.getIsPayed());
 
                 creditResponse.addPaymentResponse(paymentResponse);
