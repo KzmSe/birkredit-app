@@ -40,7 +40,16 @@ public class PaymentServiceImpl implements PaymentService {
                 .filter(c -> c.getCreditNumber().equals(creditNumber))
                 .findFirst().orElseThrow(() -> new DataNotFoundException(ResponseMessage.ERROR_CREDIT_NOT_FOUND_BY_CUSTOMER_NUMBER_OR_CREDIT_NUMBER));
 
-        Double amount = request.getAmount();
+        updateCreditInfo(credit, request.getAmount());
+
+        Customer updatedCustomer = customerRepository.save(customer);
+
+        return CustomerMapper.INSTANCE.customerToCustomerCreditResponse(updatedCustomer);
+    }
+
+    @Override
+    public void updateCreditInfo(Credit credit, Double requestedAmount) {
+        Double amount = requestedAmount;
 
         credit.setDebt(credit.getDebt() - amount);
 
@@ -67,9 +76,5 @@ public class PaymentServiceImpl implements PaymentService {
                 }
             }
         }
-
-        Customer updatedCustomer = customerRepository.save(customer);
-
-        return CustomerMapper.INSTANCE.customerToCustomerCreditResponse(updatedCustomer);
     }
 }

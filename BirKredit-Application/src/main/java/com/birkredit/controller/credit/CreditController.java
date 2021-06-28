@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/credits")
 @Api(value = "Operations related to credits in BirKredit Application")
@@ -25,7 +27,7 @@ public class CreditController {
     @PostMapping("/customers/{customer-number}")
     @ApiOperation(value = "Issue a credit by customer number", response = CreditResponse.class)
     public CreditResponse issueCredit(@PathVariable(name = "customer-number") String customerNumber,
-                                      @RequestBody CreditRequest request) {
+                                      @Valid @RequestBody CreditRequest request) {
         return creditService.issueCredit(customerNumber, request);
     }
 }

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/users")
 @Api(value = "Operations related to users in BirKredit Application")
@@ -29,7 +31,7 @@ public class UserController {
     @PostMapping
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @ApiOperation(value = "Create a new user", response = UserResponse.class)
-    public UserResponse insertUser(@RequestBody UserCreationRequest request) {
+    public UserResponse insertUser(@Valid @RequestBody UserCreationRequest request) {
         User user = UserMapper.INSTANCE.userCreationRequestToUser(request);
         return userService.insertUser(user);
     }

@@ -1,6 +1,5 @@
 package com.birkredit.controller.payment;
 
-import com.birkredit.controller.customer.dto.CustomerCreationRequest;
 import com.birkredit.controller.customer.dto.CustomerCreditResponse;
 import com.birkredit.controller.payment.dto.PaymentRequest;
 import com.birkredit.service.payment.PaymentService;
@@ -8,6 +7,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/payments")
@@ -25,7 +26,7 @@ public class PaymentController {
     @ApiOperation(value = "Pay by customer numbers and credit number", response = CustomerCreditResponse.class)
     public CustomerCreditResponse payByCustomerNumberAndCreditNumber(@PathVariable(name = "customer-number") String customerNumber,
                                                                      @PathVariable(name = "credit_number") String creditNumber,
-                                                                     @RequestBody PaymentRequest request) {
+                                                                     @Valid @RequestBody PaymentRequest request) {
         return paymentService.payByCustomerNumberAndCreditNumber(customerNumber, creditNumber, request);
     }
 }

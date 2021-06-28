@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/customers")
 @Api(value = "Operations related to customers in BirKredit Application")
@@ -28,7 +30,7 @@ public class CustomerController {
     @PostMapping
     @PreAuthorize("hasAnyRole('USER', 'ADMINISTRATOR')")
     @ApiOperation(value = "Create a new customer", response = CustomerResponse.class)
-    public CustomerResponse insertCustomer(@RequestBody CustomerCreationRequest request) {
+    public CustomerResponse insertCustomer(@Valid @RequestBody CustomerCreationRequest request) {
         Customer customer = CustomerMapper.INSTANCE.customerCreationRequestToCustomer(request);
         customer.setCustomerNumber(RandomStringUtils.random(20, false, true));
 
