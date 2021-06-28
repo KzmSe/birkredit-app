@@ -1,6 +1,7 @@
 package com.birkredit.service.payment.impl;
 
 import com.birkredit.controller.customer.dto.CustomerCreditResponse;
+import com.birkredit.controller.payment.dto.PaymentRequest;
 import com.birkredit.entity.Credit;
 import com.birkredit.entity.Customer;
 import com.birkredit.entity.Payment;
@@ -28,7 +29,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public CustomerCreditResponse payByCustomerNumberAndCreditNumber(String customerNumber, String creditNumber, Double amount) {
+    public CustomerCreditResponse payByCustomerNumberAndCreditNumber(String customerNumber, String creditNumber, PaymentRequest request) {
         Optional<Customer> optionalCustomer = customerRepository.findByCustomerNumberAndCredits_CreditNumber(customerNumber, creditNumber);
         optionalCustomer.orElseThrow(() -> new DataNotFoundException(ResponseMessage.ERROR_CREDIT_NOT_FOUND_BY_CUSTOMER_NUMBER_OR_CREDIT_NUMBER));
 
@@ -38,6 +39,8 @@ public class PaymentServiceImpl implements PaymentService {
         Credit credit = credits.stream()
                 .filter(c -> c.getCreditNumber().equals(creditNumber))
                 .findFirst().orElseThrow(() -> new DataNotFoundException(ResponseMessage.ERROR_CREDIT_NOT_FOUND_BY_CUSTOMER_NUMBER_OR_CREDIT_NUMBER));
+
+        Double amount = request.getAmount();
 
         credit.setDebt(credit.getDebt() - amount);
 
