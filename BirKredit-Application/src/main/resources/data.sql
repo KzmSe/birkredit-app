@@ -1,4 +1,4 @@
-create table user
+create table if not exists user
 (
     id           int          not null
         auto_increment
@@ -12,7 +12,7 @@ create table user
     role         varchar(50)  not null
 );
 
-create table customer
+create table if not exists customer
 (
     id              int          not null
         auto_increment
@@ -25,7 +25,7 @@ create table customer
     date_of_birth   timestamp    not null
 );
 
-create table credit
+create table if not exists credit
 (
     id                   int         not null
         auto_increment
@@ -43,7 +43,7 @@ create table credit
     fk_customer_id       int         not null
 );
 
-create table payment
+create table if not exists payment
 (
     id                       int     not null
         auto_increment
@@ -62,11 +62,11 @@ create table payment
 
 
 alter table credit
-    add constraint credit_customer_id_fk
+    add constraint if not exists credit_customer_id_fk
         foreign key (fk_customer_id) references customer;
 
 alter table payment
-    add constraint payment_credit_id_fk
+    add constraint if not exists payment_credit_id_fk
         foreign key (fk_credit_id) references credit;
 
 
